@@ -17,22 +17,25 @@ def get_video():
     tasks = []
     for x in data['database'].items():
         tasks.append((x[0], x[1]['url']))
-    # pool = ThreadPool(4)
-    # pool.starmap(download_video, tasks)
-    # pool.close()
+    
+    num_tasks = len(tasks)
+
     if os.path.exists('done_video.txt'):
         with open('done_video.txt', 'r') as done_file:
             for line in done_file.readlines():
                 done_video.add(line.strip())
                 print(line.strip() + ' has been download')
-
+    num_done = 0
     for x in tasks:
         if x[0] in done_video:
             print(x[0] + ' has been download')
+            num_done += 1
             continue
         if os.path.exists('./dataset/' + x[0] + '.mp4'):
             os.remove('./dataset/' + x[0] + '.mp4')
         download_video(x[0], x[1])
+        num_done += 1
+        print(str(num_done) + '/' + str(num_tasks))
         with open('done_video.txt', 'a') as done_file:
             done_file.write(x[0] + '\n')
 
