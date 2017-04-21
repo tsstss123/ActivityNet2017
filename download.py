@@ -33,11 +33,14 @@ def get_video():
             continue
         if os.path.exists('./dataset/' + x[0] + '.mp4'):
             os.remove('./dataset/' + x[0] + '.mp4')
-        download_video(x[0], x[1])
-        num_done += 1
-        print(str(num_done) + '/' + str(num_tasks))
-        with open('done_video.txt', 'a') as done_file:
-            done_file.write(x[0] + '\n')
+        try:
+            download_video(x[0], x[1])
+            num_done += 1
+            print(str(num_done) + '/' + str(num_tasks))
+            with open('done_video.txt', 'a') as done_file:
+                done_file.write(x[0] + '\n')
+        except:
+            pass
 
 def download_video(name, url):
     print(name, url)
