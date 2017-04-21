@@ -74,6 +74,7 @@ def get_video():
     else:
         for _ in range(len(tasks)):
             worker(_)
+    print('Finish!!!')
 
 def download_video(name, url):
     print(name, url)
