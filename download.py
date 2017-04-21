@@ -14,18 +14,26 @@ def get_video():
         pass
     with open('activity_net.v1-3.min.json', 'r') as f:
         data = json.load(f)
-    tasks = []
+    alltasks = []
     for x in data['database'].items():
-        tasks.append((x[0], x[1]['url']))
+        alltasks.append((x[0], x[1]['url']))
     
-    num_tasks = len(tasks)
+    num_tasks = len(alltasks)
 
     if os.path.exists('done_video.txt'):
         with open('done_video.txt', 'r') as done_file:
             for line in done_file.readlines():
                 done_video.add(line.strip())
                 print(line.strip() + ' has been download')
+    
     num_done = 0
+    tasks = []
+    for x in alltasks:
+        if x[0] in done_video:
+            num_done += 1 
+        else:
+            tasks.append(x)
+            
     for x in tasks:
         if x[0] in done_video:
             print(x[0] + ' has been download')
